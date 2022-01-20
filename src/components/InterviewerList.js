@@ -8,8 +8,8 @@
       key={item.id}
       name={item.name}
       avatar={item.avatar}
-      selected={props.interviewer === item.id}
-      setInterviewer ={()=> {props.setInterviewer(item.id)}}
+      selected={props.value === item.id}
+      setInterviewer ={()=> {props.onChange(item.id)}}
         />
     )})
     return (
