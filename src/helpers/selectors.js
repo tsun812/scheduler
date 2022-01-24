@@ -15,3 +15,18 @@ export function getAppointmentsForDay(state, day) {
   }
   return res;
 }
+
+export function getInterview(state, interview) {
+  let res = {};
+  if (interview === null) return null;
+  for (const  [key, value] of Object.entries(state.interviewers)) {
+    console.log(interview)
+    if (value.id === interview.interviewer) {
+      console.log(interview)
+      res['student'] = interview.student;
+      res['interviewer'] = value;
+    }
+  }
+  return res;
+  
+}
