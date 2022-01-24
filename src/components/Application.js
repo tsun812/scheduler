@@ -4,6 +4,8 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment";
 import { useState } from "react";
+import axios from "axios"
+import { useEffect } from "react";
 const appointments = [
   {
     id: 1,
@@ -42,30 +44,26 @@ const appointments = [
     time: "4pm",
   }
 ];
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
+
 export default function Application(props) {
-  const [day, setDay] = useState("Monday");
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    // you may put the line below, but will have to remove/comment hardcoded appointments variable
+    appointments: {}
+  });
+  const setDay = day => setState({ ...state, day });
+  const setDays = (days) => {setState(prev => ({ ...prev, days }))};
+  useEffect(() => {
+    axios.get('http://localhost:8001/api/days')
+    .then(response => {
+      console.log(response.data);
+      setDays([...response.data]);
+   })}, []);
   const listOfA = appointments.map(item => {
     return (<Appointment
     key={item.id}
     {...item}
-    
   />)})
   return (
     <main className="layout">
@@ -78,8 +76,8 @@ export default function Application(props) {
 <hr className="sidebar__separator sidebar--centered" />
 <nav className="sidebar__menu">
   <DayList
-  days={days}
-  value={day}
+  days={state.days}
+  value={state.day}
   onChange={setDay}
 /></nav>
 <img
