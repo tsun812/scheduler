@@ -6,7 +6,7 @@ import Appointment from "./Appointment";
 import { useState } from "react";
 import axios from "axios"
 import { useEffect } from "react";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay} from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -31,11 +31,13 @@ export default function Application(props) {
   const listOfA = dailyAppointments.map(item => {
     console.log(item)
     let interview = getInterview(state, item.interview);
+    let interviewers = getInterviewersForDay(state, state.day);
     return (<Appointment
       key={item.id}
       id={item.id}
       time={item.time}
       interview={interview}
+      interviewers = {interviewers}
   />)})
   return (
     <main className="layout">
