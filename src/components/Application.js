@@ -16,6 +16,7 @@ export default function Application(props) {
     appointments: {},
     interviewers: {}
   });
+
   let dailyAppointments = [];
   const setDay = day => setState({ ...state, day });
   useEffect(() => {
@@ -27,7 +28,6 @@ export default function Application(props) {
       setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
    })}, []);
    dailyAppointments = getAppointmentsForDay(state, state.day)
-   
   const listOfA = dailyAppointments.map(item => {
     console.log(item)
     let interview = getInterview(state, item.interview);
@@ -38,7 +38,23 @@ export default function Application(props) {
       time={item.time}
       interview={interview}
       interviewers = {interviewers}
+      bookInterview = {bookInterview}
   />)})
+
+
+function bookInterview(id, interview) {
+  console.log(id, interview);
+  const appointment = {
+    ...state.appointments[id],
+    interview: { ...interview }
+  };
+  const appointments = {
+    ...state.appointments,
+    [id]: appointment
+  };
+  setState({...state, appointments});
+}
+
   return (
     <main className="layout">
       <section className="sidebar">
