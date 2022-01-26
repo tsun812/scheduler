@@ -5,12 +5,14 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
+import Status from "./Status";
 import useVisualMode from "hooks/useVisualMode";
 import { Fragment } from "react";
 export default function Appointment (props) {
   const SHOW = "SHOW";
   const EMPTY = "EMPTY";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   )
@@ -20,6 +22,7 @@ function save(name, interviewer) {
     student: name,
     interviewer
   };
+  transition(SAVING);
   props.bookInterview(props.id, interview)
   .then(() => {transition(SHOW);})
   
@@ -38,6 +41,7 @@ function save(name, interviewer) {
         )
       }
       {mode === CREATE && <Form interviewers={props.interviewers} onCancel={() => back()} onSave={save} />}
+      {mode === SAVING && <Status message={'SAVING'} />}
       </article>
   )
 }
