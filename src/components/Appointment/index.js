@@ -7,6 +7,7 @@ import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 import useVisualMode from "hooks/useVisualMode";
 import { Fragment } from "react";
 export default function Appointment (props) {
@@ -67,6 +68,8 @@ function edit() {
       {mode === DELETING && <Status message={'DELETING'} />}
       {mode === CONFIRM && <Confirm message={'DELETING'} onCancel={()=>{back()}} onConfirm={()=>deleteA()}/>}
       {mode ===  EDIT && <Form interviewers={props.interviewers} student={props.interview.student} interviewer={props.interview.interviewer} onCancel={()=>{back()}} onSave={save} />}
+      {mode === ERROR_DELETE && <Error message={'Cannot delete appointment'} onClose={()=>{back()}}/>}
+      {mode === ERROR_SAVE && <Error message={'Cannot save appointment'} onClose={()=>{back()}}/>}
       </article>
   )
 }
