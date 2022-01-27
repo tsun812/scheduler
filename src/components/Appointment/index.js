@@ -37,7 +37,7 @@ function save(name, interviewer) {
 }
 
 function deleteA() {
-  transition(DELETING);
+  transition(DELETING, true);
   props.cancelInterview(props.id)
   .then(() => {transition(EMPTY);})
   .catch(() => {transition(ERROR_DELETE, true);})

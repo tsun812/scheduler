@@ -1,6 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
+
 export default function useApplicationData(modeInput) {
   const [state, setState] = useState({
     day: "Monday",
@@ -30,6 +36,7 @@ export default function useApplicationData(modeInput) {
   
   function bookInterview(id, interview) {
     console.log(id, interview);
+    console.log(state);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -43,6 +50,9 @@ export default function useApplicationData(modeInput) {
       .then((res) => {
         console.log(res)
         if (res.status === 204) {
+          // const spot = getSpotsForDay();
+          // console.log(spot);
+          
           setState({ ...state, appointments });
         }
       });
@@ -60,11 +70,45 @@ export default function useApplicationData(modeInput) {
      
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then((res) => {
-        console.log(res)
+        console.log(state)
         if (res.status === 204) {
-          setState({ ...state, appointments });
+          let spot = getSpotsForDay();
+          console.log(spot);
+          spot++;
+          console.log(spot);
+          let dayObj = getDayObj();
+          const newday = {
+            ...dayObj,
+            spots: spot,
+          };
+          console.log(dayObj);
+          console.log(newday)
+         
+          let newdays = state.days.map(d => d.name === state.day ? newday : d);
+          console.log(state.days)
+          setState({ ...state, appointments, days: newdays});
+          console.log(state)
         }
       });
+  }
+
+  function getSpotsForDay() {
+    let spot = null;
+    state.days.forEach(item => {
+      if (item.name === state.day){
+        spot = item.spots;
+      }
+    }) 
+    return spot;
+  }
+  function getDayObj() {
+    let res = {};
+    state.days.forEach(item => {
+      if (item.name === state.day){
+        res = item;
+      }
+    }) 
+    return res;
   }
   return { state, setDay, bookInterview, cancelInterview };
 }
