@@ -50,10 +50,22 @@ export default function useApplicationData(modeInput) {
       .then((res) => {
         console.log(res)
         if (res.status === 204) {
-          // const spot = getSpotsForDay();
-          // console.log(spot);
-          
-          setState({ ...state, appointments });
+          let spot = getSpotsForDay();
+          console.log(spot);
+          spot--;
+          console.log(spot);
+          let dayObj = getDayObj();
+          const newday = {
+            ...dayObj,
+            spots: spot,
+          };
+          console.log(dayObj);
+          console.log(newday)
+         
+          let newdays = state.days.map(d => d.name === state.day ? newday : d);
+          console.log(state.days)
+          setState({ ...state, appointments, days: newdays});
+          console.log(state)
         }
       });
   }
