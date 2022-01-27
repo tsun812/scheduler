@@ -6,6 +6,7 @@ import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
+import Confirm from "./Confirm";
 import useVisualMode from "hooks/useVisualMode";
 import { Fragment } from "react";
 export default function Appointment (props) {
@@ -15,7 +16,7 @@ export default function Appointment (props) {
   const SAVING = "SAVING";
   const DELETING = "DELETING";
   const EDIT = "EDIT";
-  const CONFIRM = "CONFIRM"
+  const CONFIRM = "CONFIRM";
   const ERROR_SAVE = "ERROR_SAVE"
   const ERROR_DELETE = "ERROR_DELETE"
   const { mode, transition, back } = useVisualMode(
@@ -30,7 +31,7 @@ function save(name, interviewer) {
   transition(SAVING);
   props.bookInterview(props.id, interview)
   .then(() => {transition(SHOW);})
-  .catch(() => {transition(ERROR_SAVE);})
+  .catch(() => {transition(ERROR_SAVE, true);})
   
 }
 
@@ -38,9 +39,11 @@ function deleteA() {
   transition(DELETING);
   props.cancelInterview(props.id)
   .then(() => {transition(EMPTY);})
-  .catch(() => {transition(ERROR_DELETE);})
+  .catch(() => {transition(ERROR_DELETE, true);})
   }
-
+function confirm () {
+  transition(CONFIRM);
+}
 function edit() {
     transition(EDIT);
 }
@@ -54,14 +57,15 @@ function edit() {
           <Show
             student={props.interview.student}
             interviewer={props.interview.interviewer}
-            onDelete = {() => deleteA()}
+            onDelete = {() => confirm()}
             onEdit = {edit}
           />
         )
       }
       {mode === CREATE && <Form interviewers={props.interviewers} onCancel={()=>{back()}} onSave={save} />}
       {mode === SAVING && <Status message={'SAVING'} />}
-      {mode ===  DELETING&& <Status message={'DELETING'} />}
+      {mode === DELETING && <Status message={'DELETING'} />}
+      {mode === CONFIRM && <Confirm message={'DELETING'} onCancel={()=>{back()}} onConfirm={()=>deleteA()}/>}
       {mode ===  EDIT && <Form interviewers={props.interviewers} student={props.interview.student} interviewer={props.interview.interviewer} onCancel={()=>{back()}} onSave={save} />}
       </article>
   )
