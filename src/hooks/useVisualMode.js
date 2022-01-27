@@ -6,7 +6,7 @@ export default function useVisualMode(modeInput) {
 
   function transition(newMode, bool) {
     setMode(newMode);
-    bool !== true && setHistory([...history, newMode]);
+    bool !== true && setHistory(prev => ([...prev, mode]));
   }
   function back() {
     if (history.length > 1) {
