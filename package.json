@@ -14,11 +14,12 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "jest": "jest",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public --ci",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "cypress": "cypress open -P ."
   },
   "browserslist": {
     "production": [
@@ -45,6 +46,7 @@
     "babel-loader": "^8.0.5",
     "jest": "^24.7.1",
     "node-sass": "^4.14.0",
+    "prop-types": "^15.8.1",
     "react-test-renderer": "^16.14.0"
   },
   "jest": {
