@@ -17,9 +17,9 @@ export default function DayListItem(props) {
   const addClass = classNames("day-list__item", {"day-list__item--selected":props.selected, "day-list__item--full":props.spots===0})
   const formatS = formatSpots(props);
   return (
-    <li onClick={props.setDay}>
-      <h2 className={addClass}>Day {props.name}.</h2> 
-      <h3 className={addClass}>{formatS}</h3>
+    <li onClick={props.setDay} className={addClass} data-testid="day">
+      <h2>Day {props.name}.</h2> 
+      <h3>{formatS}</h3>
     </li>
   );
 }
