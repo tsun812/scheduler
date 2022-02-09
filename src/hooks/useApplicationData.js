@@ -64,6 +64,7 @@ export default function useApplicationData(modeInput) {
          
           let newdays = state.days.map(d => d.name === state.day ? newday : d);
           console.log(state.days)
+          console.log(appointments)
           setState({ ...state, appointments, days: newdays});
           console.log(state)
         }

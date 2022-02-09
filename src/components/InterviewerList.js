@@ -11,7 +11,7 @@
       name={item.name}
       avatar={item.avatar}
       selected={props.value === item.id}
-      setInterviewer ={()=> {props.onChange(item.id)}}
+      setInterviewer ={()=> {props.onChange(item)}}
         />
     )})
     return (
